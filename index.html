@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiyanz - Links</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(183, 148, 244, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #667eea;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 680px;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .container.visible {
+            opacity: 1;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 45px;
+            opacity: 0;
+            animation: slideDown 0.6s ease-out 0.3s forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 42px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .avatar::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spinBorder 3s linear infinite;
+        }
+
+        @keyframes spinBorder {
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .section-title {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 35px 0 18px;
+            padding-left: 12px;
+            border-left: 3px solid #667eea;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: slideRight 0.5s ease-out forwards;
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 0.9;
+                transform: translateX(0);
+            }
+        }
+
+        .link-item {
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .link-item.visible {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .link-item:hover::before {
+            left: 100%;
+        }
+
+        .link-item:hover {
+            transform: translateY(-4px) translateX(4px);
+            background: rgba(40, 40, 40, 0.8);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .link-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 18px;
+            font-size: 22px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .link-item:hover .link-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .youtube { background: linear-gradient(135deg, #FF0000, #CC0000); }
+        .tiktok { background: linear-gradient(135deg, #000000, #69C9D0, #EE1D52); }
+        .instagram { background: linear-gradient(135deg, #E1306C, #C13584, #833AB4, #5851DB); }
+        .telegram { background: linear-gradient(135deg, #0088cc, #005580); }
+        .signal { background: linear-gradient(135deg, #3A76F0, #2557C5); }
+        .twitter { background: linear-gradient(135deg, #000000, #14171A); }
+        .whatsapp { background: linear-gradient(135deg, #25D366, #1DA851, #128C7E); }
+        .gemini { background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05); }
+        .store { background: linear-gradient(135deg, #FF6B6B, #C44569, #8B2F5C); }
+
+        .link-content {
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        .link-desc {
+            font-size: 13px;
+            color: #888888;
+            font-weight: 400;
+        }
+
+        .link-arrow {
+            color: #667eea;
+            font-size: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-item:hover .link-arrow {
+            transform: translateX(8px) scale(1.1);
+            color: #8b9aef;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 35px 25px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+
+            .avatar {
+                width: 90px;
+                height: 90px;
+                font-size: 36px;
+            }
+            
+            .link-title {
+                font-size: 15px;
+            }
+
+            .link-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">TIYANZ</div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <div class="avatar">TZ</div>
+            <h1>Tiyanz</h1>
+            <p class="subtitle">Hubungi & Kunjungi Semua Link Saya</p>
+        </div>
+
+        <div class="section-title">📱 Sosial Media</div>
+
+        <a href="https://youtube.com/@septiyandaputra3957?si=3Ycdr3KxcNIuJCTt" target="_blank" class="link-item">
+            <div class="link-icon youtube">▶</div>
+            <div class="link-content">
+                <div class="link-title">YouTube</div>
+                <div class="link-desc">@septiyandaputra3957</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.tiktok.com/@septiyanda_putra?_t=ZS-90Am9yJYW2b&_r=1" target="_blank" class="link-item">
+            <div class="link-icon tiktok">🎵</div>
+            <div class="link-content">
+                <div class="link-title">TikTok</div>
+                <div class="link-desc">@septiyanda_putra</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.instagram.com/septiyanda_putra?igsh=cjhsZXoxZm1nNnFu" target="_blank" class="link-item">
+            <div class="link-icon instagram">📷</div>
+            <div class="link-content">
+                <div class="link-title">Instagram</div>
+                <div class="link-desc">@septiyanda_putra</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://x.com/123_septiy36834?t=LQb1HMu4nPF6D6VQObegbw&s=09" target="_blank" class="link-item">
+            <div class="link-icon twitter">𝕏</div>
+            <div class="link-content">
+                <div class="link-title">X (Twitter)</div>
+                <div class="link-desc">@123_septiy36834</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://t.me/Tiyanzxbella" target="_blank" class="link-item">
+            <div class="link-icon telegram">✈</div>
+            <div class="link-content">
+                <div class="link-title">Telegram</div>
+                <div class="link-desc">@Tiyanzxbella</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://signal.me/#eu/oBP6bA62pn612XlhJoogWD-pT_JJOy98uzetByHykL0mQThOuzVBZZPRsbGGpJCc" target="_blank" class="link-item">
+            <div class="link-icon signal">🔒</div>
+            <div class="link-content">
+                <div class="link-title">Signal</div>
+                <div class="link-desc">Secure Messaging</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://wa.me/6283862356347" target="_blank" class="link-item">
+            <div class="link-icon whatsapp">💬</div>
+            <div class="link-content">
+                <div class="link-title">WhatsApp</div>
+                <div class="link-desc">Chat Langsung</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://chat.whatsapp.com/BZpOjmdb1enC0gI1bjXtpx?mode=ems_copy_t" target="_blank" class="link-item">
+            <div class="link-icon whatsapp">👥</div>
+            <div class="link-content">
+                <div class="link-title">Grup Bot WhatsApp</div>
+                <div class="link-desc">Join Grup</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <div class="section-title">🌐 Website</div>
+
+        <a href="https://tiyanzxbella.github.io/Gemini-ai/" target="_blank" class="link-item">
+            <div class="link-icon gemini">🤖</div>
+            <div class="link-content">
+                <div class="link-title">Gemini AI</div>
+                <div class="link-desc">AI Assistant Web</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://store.tiyangaming.web.id" target="_blank" class="link-item">
+            <div class="link-icon store">🛒</div>
+            <div class="link-content">
+                <div class="link-title">Store Tiyan Gaming</div>
+                <div class="link-desc">Panel Bot WA, PPOB & Topup</div>
+            </div>
+            <div class="link-arrow">→</div>
+        </a>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                document.getElementById('mainContainer').classList.add('visible');
+                animateLinks();
+            }, 1500);
+        });
+
+        // Scroll Animation for Links
+        function animateLinks() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 100);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.link-item').forEach(item => {
+                observer.observe(item);
+            });
+
+            document.querySelectorAll('.section-title').forEach(title => {
+                observer.observe(title);
+            });
+        }
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('body::before');
+            if (parallax) {
+                document.body.style.setProperty('--scroll', scrolled * 0.5 + 'px');
+            }
+        });
+    </script>
+</body>
+</html>
