@@ -304,26 +304,135 @@
             }
         }
 
-        .link-item {
-            background: rgba(30, 30, 30, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        /* Tombol untuk membuka link lingkaran */
+        .floating-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
             border-radius: 16px;
-            padding: 18px 22px;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #ffffff;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            display: block;
+            margin: 0 auto 30px;
+            width: 80%;
+            max-width: 300px;
             opacity: 0;
-            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out forwards;
         }
 
-        .link-item.visible {
-            animation: fadeInUp 0.5s ease-out forwards;
+        .floating-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Overlay untuk lingkaran link */
+        .links-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9997;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+            cursor: pointer;
+        }
+
+        .links-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .links-content {
+            position: relative;
+            cursor: default;
+            padding-top: 20px;
+        }
+
+        .circle-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        .circle-link {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            animation: circleAppear 0.5s ease-out forwards, float 3s ease-in-out infinite;
+            opacity: 0;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .circle-link:hover {
+            transform: scale(1.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+
+        .circle-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .circle-label {
+            font-size: 10px;
+            font-weight: 500;
+            text-align: center;
+            max-width: 70px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Warna untuk lingkaran */
+        .youtube { background: linear-gradient(135deg, #FF0000, #CC0000); }
+        .tiktok { background: linear-gradient(135deg, #000000, #69C9D0, #EE1D52); }
+        .instagram { background: linear-gradient(135deg, #E1306C, #C13584, #833AB4, #5851DB); }
+        .telegram { background: linear-gradient(135deg, #0088cc, #005580); }
+        .signal { background: linear-gradient(135deg, #3A76F0, #2557C5); }
+        .twitter { background: linear-gradient(135deg, #000000, #14171A); }
+        .whatsapp { background: linear-gradient(135deg, #25D366, #1DA851, #128C7E); }
+        .whatsapp-group { background: linear-gradient(135deg, #128C7E, #075E54); }
+        .gemini { background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05); }
+        .store { background: linear-gradient(135deg, #FF6B6B, #C44569, #8B2F5C); }
+        .script { background: linear-gradient(135deg, #FF9800, #FF5722); }
+
+        @keyframes circleAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotate(-180deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         @keyframes fadeInUp {
@@ -333,89 +442,12 @@
             }
         }
 
-        .link-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: left 0.5s;
-        }
-
-        .link-item:hover::before {
-            left: 100%;
-        }
-
-        .link-item:hover {
-            transform: translateY(-4px) translateX(4px);
-            background: rgba(40, 40, 40, 0.8);
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-        }
-
-        .link-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 18px;
-            font-size: 22px;
-            flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .link-item:hover .link-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .youtube { background: linear-gradient(135deg, #FF0000, #CC0000); }
-        .tiktok { background: linear-gradient(135deg, #000000, #69C9D0, #EE1D52); }
-        .instagram { background: linear-gradient(135deg, #E1306C, #C13584, #833AB4, #5851DB); }
-        .telegram { background: linear-gradient(135deg, #0088cc, #005580); }
-        .signal { background: linear-gradient(135deg, #3A76F0, #2557C5); }
-        .twitter { background: linear-gradient(135deg, #000000, #14171A); }
-        .whatsapp { background: linear-gradient(135deg, #25D366, #1DA851, #128C7E); }
-        .gemini { background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05); }
-        .store { background: linear-gradient(135deg, #FF6B6B, #C44569, #8B2F5C); }
-        .script { background: linear-gradient(135deg, #FF9800, #FF5722); }
-
-        .link-content {
-            flex-grow: 1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .link-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-            font-size: 16px;
+        .overlay-title {
             color: #ffffff;
-        }
-
-        .link-desc {
-            font-size: 13px;
-            color: #888888;
-            font-weight: 400;
-        }
-
-        .link-arrow {
-            color: #667eea;
             font-size: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            z-index: 1;
-        }
-
-        .link-item:hover .link-arrow {
-            transform: translateX(8px) scale(1.1);
-            color: #8b9aef;
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-align: center;
         }
 
         @media (max-width: 480px) {
@@ -433,22 +465,30 @@
                 font-size: 36px;
             }
             
-            .link-title {
-                font-size: 15px;
-            }
-
-            .link-icon {
-                width: 44px;
-                height: 44px;
-                font-size: 20px;
-            }
-            
             .popup-content {
                 padding: 30px 20px;
             }
             
             .popup-content h2 {
                 font-size: 24px;
+            }
+            
+            .circle-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .circle-link {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .circle-icon {
+                font-size: 20px;
+            }
+            
+            .circle-label {
+                font-size: 9px;
             }
         }
     </style>
@@ -469,6 +509,25 @@
         </div>
     </div>
 
+    <!-- Overlay untuk lingkaran link -->
+    <div class="links-overlay" id="sosmedOverlay">
+        <div class="links-content">
+            <h2 class="overlay-title">Sosial Media</h2>
+            <div class="circle-container" id="sosmedCircleContainer">
+                <!-- Sosial Media Links akan ditambahkan melalui JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="links-overlay" id="websiteOverlay">
+        <div class="links-content">
+            <h2 class="overlay-title">Website</h2>
+            <div class="circle-container" id="websiteCircleContainer">
+                <!-- Website Links akan ditambahkan melalui JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop>
         <source src="https://files.catbox.moe/8xrr41.opus" type="audio/ogg">
@@ -484,108 +543,10 @@
         </div>
 
         <div class="section-title">📱 Sosial Media</div>
-
-        <a href="https://youtube.com/@septiyandaputra3957?si=3Ycdr3KxcNIuJCTt" target="_blank" class="link-item">
-            <div class="link-icon youtube">▶</div>
-            <div class="link-content">
-                <div class="link-title">YouTube</div>
-                <div class="link-desc">@septiyandaputra3957</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://www.tiktok.com/@septiyanda_putra?_t=ZS-90Am9yJYW2b&_r=1" target="_blank" class="link-item">
-            <div class="link-icon tiktok">🎵</div>
-            <div class="link-content">
-                <div class="link-title">TikTok</div>
-                <div class="link-desc">@septiyanda_putra</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://www.instagram.com/septiyanda_putra?igsh=cjhsZXoxZm1nNnFu" target="_blank" class="link-item">
-            <div class="link-icon instagram">📷</div>
-            <div class="link-content">
-                <div class="link-title">Instagram</div>
-                <div class="link-desc">@septiyanda_putra</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://x.com/12t=LQb1HMu4nPF6D6VQObegbw&s=09" target="_blank" class="link-item">
-            <div class="link-icon twitter">𝕏</div>
-            <div class="link-content">
-                <div class="link-title">X (Twitter)</div>
-                <div class="link-desc">malas</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://t.me/Tiyanzxbella" target="_blank" class="link-item">
-            <div class="link-icon telegram">✈</div>
-            <div class="link-content">
-                <div class="link-title">Telegram</div>
-                <div class="link-desc">@Tiyanzxbella</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://signal.me/#eu/oBP6bA62pn612XlhJoogWD-pT_JJOy98uzetByHykL0mQThOuzVBZZPRsbGGpJCc" target="_blank" class="link-item">
-            <div class="link-icon signal">🔒</div>
-            <div class="link-content">
-                <div class="link-title">Signal</div>
-                <div class="link-desc">Secure Messaging</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://wa.me/6283862356347" target="_blank" class="link-item">
-            <div class="link-icon whatsapp">💬</div>
-            <div class="link-content">
-                <div class="link-title">WhatsApp</div>
-                <div class="link-desc">Chat Langsung</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://chat.whatsapp.com/BZpOjmdb1enC0gI1bjXtpx?mode=ems_copy_t" target="_blank" class="link-item">
-            <div class="link-icon whatsapp">👥</div>
-            <div class="link-content">
-                <div class="link-title">Grup Bot WhatsApp</div>
-                <div class="link-desc">Join Grup</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
+        <button class="floating-button" id="sosmedButton">Lihat Sosial Media</button>
 
         <div class="section-title">🌐 Website</div>
-
-        <a href="https://tiyanzxbella.github.io/Gemini-ai/" target="_blank" class="link-item">
-            <div class="link-icon gemini">🤖</div>
-            <div class="link-content">
-                <div class="link-title">Gemini AI</div>
-                <div class="link-desc">AI Assistant Web</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <!-- Link Baru untuk Kumpulan Script Bot & APK -->
-        <a href="https://tiyanzxbella.github.io/Kumpulan-script/" target="_blank" class="link-item">
-            <div class="link-icon script">📜</div>
-            <div class="link-content">
-                <div class="link-title">Kumpulan Script Bot & APK</div>
-                <div class="link-desc">Koleksi Script dan Aplikasi</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-
-        <a href="https://store.tiyangaming.web.id" target="_blank" class="link-item">
-            <div class="link-icon store">🛒</div>
-            <div class="link-content">
-                <div class="link-title">Store Tiyan Gaming</div>
-                <div class="link-desc">Panel Bot WA, PPOB & Topup</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
+        <button class="floating-button" id="websiteButton">Lihat Website</button>
     </div>
 
     <script>
@@ -609,38 +570,177 @@
                 // Successfully started playing
                 welcomePopup.classList.remove('active');
                 mainContainer.classList.add('visible');
-                animateLinks();
+                animateButtons();
             }).catch(error => {
                 console.error('Error playing audio:', error);
                 // If autoplay is blocked, continue without music
                 welcomePopup.classList.remove('active');
                 mainContainer.classList.add('visible');
-                animateLinks();
+                animateButtons();
             });
         });
 
-        // Scroll Animation for Links
-        function animateLinks() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry, index) => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.classList.add('visible');
-                        }, index * 100);
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
+        // Data untuk link sosial media
+        const sosmedLinks = [
+            {
+                url: "https://youtube.com/@septiyandaputra3957?si=3Ycdr3KxcNIuJCTt",
+                icon: "▶",
+                label: "YouTube",
+                class: "youtube"
+            },
+            {
+                url: "https://www.tiktok.com/@septiyanda_putra?_t=ZS-90Am9yJYW2b&_r=1",
+                icon: "🎵",
+                label: "TikTok",
+                class: "tiktok"
+            },
+            {
+                url: "https://www.instagram.com/septiyanda_putra?igsh=cjhsZXoxZm1nNnFu",
+                icon: "📷",
+                label: "Instagram",
+                class: "instagram"
+            },
+            {
+                url: "https://x.com/12t=LQb1HMu4nPF6D6VQObegbw&s=09",
+                icon: "𝕏",
+                label: "Twitter",
+                class: "twitter"
+            },
+            {
+                url: "https://t.me/Tiyanzxbella",
+                icon: "✈",
+                label: "Telegram",
+                class: "telegram"
+            },
+            {
+                url: "https://signal.me/#eu/oBP6bA62pn612XlhJoogWD-pT_JJOy98uzetByHykL0mQThOuzVBZZPRsbGGpJCc",
+                icon: "🔒",
+                label: "Signal",
+                class: "signal"
+            },
+            {
+                url: "https://wa.me/6283862356347",
+                icon: "💬",
+                label: "WhatsApp",
+                class: "whatsapp"
+            },
+            {
+                url: "https://chat.whatsapp.com/BZpOjmdb1enC0gI1bjXtpx?mode=ems_copy_t",
+                icon: "👥",
+                label: "Grup Bot",
+                class: "whatsapp-group"
+            }
+        ];
 
-            document.querySelectorAll('.link-item').forEach(item => {
-                observer.observe(item);
-            });
+        // Data untuk link website
+        const websiteLinks = [
+            {
+                url: "https://tiyanzxbella.github.io/Gemini-ai/",
+                icon: "🤖",
+                label: "Gemini AI",
+                class: "gemini"
+            },
+            {
+                url: "https://tiyanzxbella.github.io/Kumpulan-script/",
+                icon: "📜",
+                label: "Kumpulan Script",
+                class: "script"
+            },
+            {
+                url: "https://store.tiyangaming.web.id",
+                icon: "🛒",
+                label: "Store",
+                class: "store"
+            }
+        ];
 
-            document.querySelectorAll('.section-title').forEach(title => {
-                observer.observe(title);
+        // Fungsi untuk membuat lingkaran link dalam formasi melingkar
+        function createCircleLinks(links, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            const radius = 120; // Radius lingkaran
+            const centerX = container.offsetWidth / 2;
+            const centerY = container.offsetHeight / 2;
+            
+            links.forEach((link, index) => {
+                const angle = (index / links.length) * 2 * Math.PI;
+                const x = centerX + radius * Math.cos(angle) - 40; // 40 adalah setengah dari lebar lingkaran
+                const y = centerY + radius * Math.sin(angle) - 40; // 40 adalah setengah dari tinggi lingkaran
+                
+                const circleLink = document.createElement('a');
+                circleLink.href = link.url;
+                circleLink.target = "_blank";
+                circleLink.className = `circle-link ${link.class}`;
+                circleLink.style.left = `${x}px`;
+                circleLink.style.top = `${y}px`;
+                circleLink.style.animationDelay = `${index * 0.1}s`;
+                
+                const circleIcon = document.createElement('div');
+                circleIcon.className = 'circle-icon';
+                circleIcon.textContent = link.icon;
+                
+                const circleLabel = document.createElement('div');
+                circleLabel.className = 'circle-label';
+                circleLabel.textContent = link.label;
+                
+                circleLink.appendChild(circleIcon);
+                circleLink.appendChild(circleLabel);
+                container.appendChild(circleLink);
             });
         }
+
+        // Inisialisasi lingkaran link
+        document.addEventListener('DOMContentLoaded', function() {
+            createCircleLinks(sosmedLinks, 'sosmedCircleContainer');
+            createCircleLinks(websiteLinks, 'websiteCircleContainer');
+        });
+
+        // Fungsi untuk animasi tombol
+        function animateButtons() {
+            const buttons = document.querySelectorAll('.floating-button');
+            buttons.forEach((button, index) => {
+                setTimeout(() => {
+                    button.style.opacity = 1;
+                }, index * 200);
+            });
+        }
+
+        // Event listener untuk tombol sosial media
+        document.getElementById('sosmedButton').addEventListener('click', function() {
+            document.getElementById('sosmedOverlay').classList.add('active');
+        });
+
+        // Event listener untuk tombol website
+        document.getElementById('websiteButton').addEventListener('click', function() {
+            document.getElementById('websiteOverlay').classList.add('active');
+        });
+
+        // Fungsi untuk menutup overlay saat mengklik di mana saja
+        function setupOverlayClose(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            
+            // Tutup overlay saat mengklik di mana saja di dalamnya
+            overlay.addEventListener('click', function(e) {
+                // Hanya tutup jika yang diklik adalah overlay itu sendiri (bukan konten di dalamnya)
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+            
+            // Juga tambahkan event listener untuk mencegah penutupan saat mengklik link
+            const linksContainer = overlay.querySelector('.circle-container');
+            linksContainer.addEventListener('click', function(e) {
+                // Mencegah event bubbling ke overlay jika yang diklik adalah link
+                if (e.target.closest('.circle-link')) {
+                    e.stopPropagation();
+                }
+            });
+        }
+
+        // Setup penutupan untuk kedua overlay
+        setupOverlayClose('sosmedOverlay');
+        setupOverlayClose('websiteOverlay');
 
         // Parallax effect on scroll
         window.addEventListener('scroll', function() {
