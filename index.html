@@ -293,6 +293,11 @@
             animation: slideRight 0.5s ease-out forwards;
         }
 
+        /* Tambahkan warna khusus untuk freelance */
+        .freelance-title {
+            border-left-color: #FF9800;
+        }
+
         @keyframes slideRight {
             from {
                 opacity: 0;
@@ -322,6 +327,16 @@
             max-width: 300px;
             opacity: 0;
             animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* Tombol khusus freelance dengan warna oranye */
+        .freelance-button {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.4);
+        }
+
+        .freelance-button:hover {
+            box-shadow: 0 15px 40px rgba(255, 152, 0, 0.6);
         }
 
         .floating-button:hover {
@@ -361,8 +376,8 @@
 
         .circle-container {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             margin: 0 auto;
         }
 
@@ -406,20 +421,23 @@
             white-space: nowrap;
         }
 
-        /* Warna untuk lingkaran - DIPERBARUI dengan menambahkan game */
+        /* Warna untuk lingkaran - DIPERBARUI */
         .youtube { background: linear-gradient(135deg, #FF0000, #CC0000); }
         .tiktok { background: linear-gradient(135deg, #000000, #69C9D0, #EE1D52); }
         .instagram { background: linear-gradient(135deg, #E1306C, #C13584, #833AB4, #5851DB); }
         .telegram { background: linear-gradient(135deg, #0088cc, #005580); }
         .signal { background: linear-gradient(135deg, #3A76F0, #2557C5); }
-        .twitter { background: linear-gradient(135deg, #000000, #14171A); }
+        .line { background: linear-gradient(135deg, #00B900, #00A000); }
         .whatsapp { background: linear-gradient(135deg, #25D366, #1DA851, #128C7E); }
         .whatsapp-group { background: linear-gradient(135deg, #128C7E, #075E54); }
         .gemini { background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05); }
         .store { background: linear-gradient(135deg, #FF6B6B, #C44569, #8B2F5C); }
         .script { background: linear-gradient(135deg, #FF9800, #FF5722); }
         .uploader { background: linear-gradient(135deg, #00b09b, #96c93d); }
-        .game { background: linear-gradient(135deg, #9C27B0, #673AB7); } /* Warna baru untuk game */
+        .game { background: linear-gradient(135deg, #9C27B0, #673AB7); }
+        .setorwa { background: linear-gradient(135deg, #4CAF50, #2E7D32); }
+        .kirimdulu { background: linear-gradient(135deg, #2196F3, #0D47A1); }
+        .rekomendasi { background: linear-gradient(135deg, #FF9800, #F57C00); }
 
         @keyframes circleAppear {
             from {
@@ -476,8 +494,8 @@
             }
             
             .circle-container {
-                width: 280px;
-                height: 280px;
+                width: 320px;
+                height: 320px;
             }
             
             .circle-link {
@@ -511,7 +529,7 @@
         </div>
     </div>
 
-    <!-- Overlay untuk lingkaran link -->
+    <!-- Overlay untuk lingkaran link Sosial Media -->
     <div class="links-overlay" id="sosmedOverlay">
         <div class="links-content">
             <h2 class="overlay-title">Sosial Media</h2>
@@ -521,11 +539,22 @@
         </div>
     </div>
 
+    <!-- Overlay untuk lingkaran link Website -->
     <div class="links-overlay" id="websiteOverlay">
         <div class="links-content">
             <h2 class="overlay-title">Website</h2>
             <div class="circle-container" id="websiteCircleContainer">
                 <!-- Website Links akan ditambahkan melalui JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay untuk lingkaran link Freelance -->
+    <div class="links-overlay" id="freelanceOverlay">
+        <div class="links-content">
+            <h2 class="overlay-title">Freelance</h2>
+            <div class="circle-container" id="freelanceCircleContainer">
+                <!-- Freelance Links akan ditambahkan melalui JavaScript -->
             </div>
         </div>
     </div>
@@ -549,6 +578,9 @@
 
         <div class="section-title">🌐 Website</div>
         <button class="floating-button" id="websiteButton">Lihat Website</button>
+
+        <div class="section-title freelance-title">💼 Freelance</div>
+        <button class="floating-button freelance-button" id="freelanceButton">Lihat Freelance</button>
     </div>
 
     <script>
@@ -582,7 +614,7 @@
             });
         });
 
-        // Data untuk link sosial media
+        // Data untuk link sosial media - Twitter diganti dengan LINE
         const sosmedLinks = [
             {
                 url: "https://youtube.com/@septiyandaputra3957?si=3Ycdr3KxcNIuJCTt",
@@ -603,10 +635,10 @@
                 class: "instagram"
             },
             {
-                url: "https://x.com/12t=LQb1HMu4nPF6D6VQObegbw&s=09",
-                icon: "𝕏",
-                label: "Twitter",
-                class: "twitter"
+                url: "https://line.me/ti/p/Zkdx9DgTAS",
+                icon: "📱",
+                label: "LINE",
+                class: "line"
             },
             {
                 url: "https://t.me/Tiyanzxbella",
@@ -634,7 +666,7 @@
             }
         ];
 
-        // Data untuk link website - DIPERBARUI dengan menambahkan Game Sederhana
+        // Data untuk link website (tanpa freelance)
         const websiteLinks = [
             {
                 url: "https://tiyanzxbella.github.io/Uploader-web-media/",
@@ -655,7 +687,7 @@
                 class: "script"
             },
             {
-                url: "https://tiyanzxbella.github.io/Game-sederhana/", // WEBSITE GAME DITAMBAHKAN
+                url: "https://tiyanzxbella.github.io/Game-sederhana/",
                 icon: "🎮",
                 label: "Game Sederhana",
                 class: "game"
@@ -668,19 +700,41 @@
             }
         ];
 
+        // Data untuk link freelance (web cuan)
+        const freelanceLinks = [
+            {
+                url: "https://setorwa.com/signup?ref=43966",
+                icon: "💰",
+                label: "SetorWA",
+                class: "setorwa"
+            },
+            {
+                url: "https://kirimdulux1.com/dashboard",
+                icon: "📨",
+                label: "KirimDulu",
+                class: "kirimdulu"
+            },
+            {
+                url: "https://d1.3rx5.org/go/94505872",
+                icon: "🚀",
+                label: "Rekomendasi",
+                class: "rekomendasi"
+            }
+        ];
+
         // Fungsi untuk membuat lingkaran link dalam formasi melingkar
         function createCircleLinks(links, containerId) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
             
-            const radius = 120; // Radius lingkaran
+            const radius = links.length <= 3 ? 100 : 140; // Radius lebih kecil untuk 3 link freelance
             const centerX = container.offsetWidth / 2;
             const centerY = container.offsetHeight / 2;
             
             links.forEach((link, index) => {
                 const angle = (index / links.length) * 2 * Math.PI;
-                const x = centerX + radius * Math.cos(angle) - 40; // 40 adalah setengah dari lebar lingkaran
-                const y = centerY + radius * Math.sin(angle) - 40; // 40 adalah setengah dari tinggi lingkaran
+                const x = centerX + radius * Math.cos(angle) - 40;
+                const y = centerY + radius * Math.sin(angle) - 40;
                 
                 const circleLink = document.createElement('a');
                 circleLink.href = link.url;
@@ -708,6 +762,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             createCircleLinks(sosmedLinks, 'sosmedCircleContainer');
             createCircleLinks(websiteLinks, 'websiteCircleContainer');
+            createCircleLinks(freelanceLinks, 'freelanceCircleContainer');
         });
 
         // Fungsi untuk animasi tombol
@@ -728,6 +783,11 @@
         // Event listener untuk tombol website
         document.getElementById('websiteButton').addEventListener('click', function() {
             document.getElementById('websiteOverlay').classList.add('active');
+        });
+
+        // Event listener untuk tombol freelance
+        document.getElementById('freelanceButton').addEventListener('click', function() {
+            document.getElementById('freelanceOverlay').classList.add('active');
         });
 
         // Fungsi untuk menutup overlay saat mengklik di mana saja
@@ -752,9 +812,10 @@
             });
         }
 
-        // Setup penutupan untuk kedua overlay
+        // Setup penutupan untuk ketiga overlay
         setupOverlayClose('sosmedOverlay');
         setupOverlayClose('websiteOverlay');
+        setupOverlayClose('freelanceOverlay');
 
         // Parallax effect on scroll
         window.addEventListener('scroll', function() {
