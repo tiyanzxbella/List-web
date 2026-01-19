@@ -852,9 +852,8 @@
             freelanceOverlay.classList.remove('active');
             
             if (currentFreelanceLink) {
-                setTimeout(() => {
-                    window.open(currentFreelanceLink.url, '_blank');
-                }, 300);
+                // Buka link di tab baru
+                window.open(currentFreelanceLink.url, '_blank');
             }
             currentFreelanceLink = null;
         });
@@ -890,18 +889,21 @@
                 const x = centerX + radius * Math.cos(angle) - 40;
                 const y = centerY + radius * Math.sin(angle) - 40;
                 
-                const circleLink = document.createElement('a');
-                circleLink.href = link.customPopup ? "#" : link.url;
-                circleLink.target = link.customPopup ? "_self" : "_blank";
+                const circleLink = document.createElement('div');
                 circleLink.className = `circle-link ${link.class}`;
                 circleLink.style.left = `${x}px`;
                 circleLink.style.top = `${y}px`;
                 circleLink.style.animationDelay = `${index * 0.1}s`;
                 
-                // Tambahkan event listener khusus untuk link dengan custom popup
-                if (link.customPopup) {
+                // Event listener untuk link biasa (sosial media & website)
+                if (!link.customPopup) {
+                    circleLink.addEventListener('click', function() {
+                        window.open(link.url, '_blank');
+                    });
+                } else {
+                    // Event listener untuk link freelance dengan popup
                     circleLink.addEventListener('click', function(e) {
-                        e.preventDefault();
+                        e.stopPropagation();
                         showFreelancePopup(link);
                     });
                 }
@@ -920,7 +922,7 @@
             });
         }
 
-        // Inisialisasi lingkaran link
+        // Inisialisasi lingkaran link saat DOM siap
         document.addEventListener('DOMContentLoaded', function() {
             createCircleLinks(sosmedLinks, 'sosmedCircleContainer');
             createCircleLinks(websiteLinks, 'websiteCircleContainer');
