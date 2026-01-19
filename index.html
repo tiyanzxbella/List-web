@@ -472,8 +472,8 @@
             text-align: center;
         }
 
-        /* Popup khusus Buzzer */
-        .buzzer-popup {
+        /* Popup khusus freelance */
+        .freelance-popup {
             position: fixed;
             top: 0;
             left: 0;
@@ -490,9 +490,39 @@
             transition: opacity 0.5s, visibility 0.5s;
         }
 
-        .buzzer-popup.active {
+        .freelance-popup.active {
             opacity: 1;
             visibility: visible;
+        }
+
+        .popup-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            margin: 0 10px;
+            min-width: 150px;
+        }
+
+        .popup-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .popup-button.cancel {
+            background: linear-gradient(135deg, #666, #333);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .popup-button.confirm {
+            background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
         }
 
         @media (max-width: 480px) {
@@ -535,6 +565,12 @@
             .circle-label {
                 font-size: 9px;
             }
+            
+            .popup-button {
+                padding: 14px 24px;
+                font-size: 16px;
+                min-width: 130px;
+            }
         }
     </style>
 </head>
@@ -554,14 +590,14 @@
         </div>
     </div>
 
-    <!-- Custom Popup untuk Buzzer -->
-    <div class="buzzer-popup" id="buzzerPopup">
+    <!-- Custom Popup untuk freelance -->
+    <div class="freelance-popup" id="freelancePopup">
         <div class="popup-content" style="max-width: 450px;">
-            <h2>⚠️ Perhatian!</h2>
-            <p id="buzzerMessage">Ini adalah web freelance khusus untuk clipper/buzzer. Tugasnya adalah menyebarkan konten atau promosi di media sosial dengan sistem pembayaran per tugas.</p>
-            <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
-                <button class="ok-button" id="cancelBuzzer" style="background: linear-gradient(135deg, #666, #333); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);">Batal</button>
-                <button class="ok-button" id="confirmBuzzer" style="background: linear-gradient(135deg, #FF6B6B, #EE5A52); box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);">Buka Halaman</button>
+            <h2 id="popupTitle">⚠️ Perhatian!</h2>
+            <p id="popupMessage">Deskripsi akan muncul di sini.</p>
+            <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button class="popup-button cancel" id="cancelPopup">Batal</button>
+                <button class="popup-button confirm" id="confirmPopup">Buka Halaman</button>
             </div>
         </div>
     </div>
@@ -737,76 +773,97 @@
             }
         ];
 
-        // Data untuk link freelance (web cuan)
+        // Data untuk link freelance (web cuan) dengan deskripsi masing-masing
         const freelanceLinks = [
             {
                 url: "https://setorwa.com/signup?ref=43966",
                 icon: "💰",
                 label: "SetorWA",
-                class: "setorwa"
+                class: "setorwa",
+                customPopup: true,
+                title: "SetorWA",
+                description: "Khusus WhatsApp. Website freelance untuk menerima pesan/panggilan WA dengan sistem pembayaran per tugas."
             },
             {
                 url: "https://kirimdulux1.com/dashboard",
                 icon: "📨",
                 label: "KirimDulu",
-                class: "kirimdulu"
+                class: "kirimdulu",
+                customPopup: true,
+                title: "KirimDulu",
+                description: "Khusus WhatsApp. Platform freelance untuk mengirim pesan WA dengan sistem pembayaran per tugas."
             },
             {
                 url: "https://d1.3rx5.org/go/94505872",
                 icon: "🚀",
                 label: "Rekomendasi",
-                class: "rekomendasi"
+                class: "rekomendasi",
+                customPopup: true,
+                title: "Rekomendasi",
+                description: "Khusus Indonesia. Support Telegram, WhatsApp, dan Line. Tidak gampang kebanned atau diblokir, tapi untuk WD cepat perlu banyak nomor."
             },
             {
                 url: "https://gilano.vip/pages/login/register?promo_code=051A4F9E",
                 icon: "🎯",
                 label: "Solvia",
-                class: "solvia"
+                class: "solvia",
+                customPopup: true,
+                title: "Solvia",
+                description: "Bisa untuk semua nomor sesuai list di webnya. Cek sendiri daftar operator yang didukung."
             },
             {
                 url: "https://www.trybuzzer.com/",
                 icon: "📢",
                 label: "Buzzer",
                 class: "buzzer",
-                customPopup: true
+                customPopup: true,
+                title: "Buzzer",
+                description: "Website freelance khusus untuk clipper/buzzer. Tugasnya adalah menyebarkan konten atau promosi di media sosial dengan sistem pembayaran per tugas."
             }
         ];
 
-        // Variabel global untuk menyimpan link Buzzer saat ini
-        let currentBuzzerLink = null;
+        // Variabel global untuk menyimpan link freelance yang dipilih
+        let currentFreelanceLink = null;
 
-        // Fungsi untuk menampilkan popup Buzzer
-        function showBuzzerPopup(link) {
-            currentBuzzerLink = link;
-            const popup = document.getElementById('buzzerPopup');
+        // Fungsi untuk menampilkan popup freelance
+        function showFreelancePopup(link) {
+            currentFreelanceLink = link;
+            const popup = document.getElementById('freelancePopup');
+            const title = document.getElementById('popupTitle');
+            const message = document.getElementById('popupMessage');
+            
+            title.textContent = `⚠️ ${link.title}`;
+            message.textContent = link.description;
             popup.classList.add('active');
         }
 
-        // Event listener untuk tombol Batal di popup Buzzer
-        document.getElementById('cancelBuzzer').addEventListener('click', function() {
-            document.getElementById('buzzerPopup').classList.remove('active');
-            currentBuzzerLink = null;
+        // Event listener untuk tombol Batal di popup freelance
+        document.getElementById('cancelPopup').addEventListener('click', function() {
+            document.getElementById('freelancePopup').classList.remove('active');
+            currentFreelanceLink = null;
         });
 
-        // Event listener untuk tombol Buka Halaman di popup Buzzer
-        document.getElementById('confirmBuzzer').addEventListener('click', function() {
-            const popup = document.getElementById('buzzerPopup');
+        // Event listener untuk tombol Buka Halaman di popup freelance
+        document.getElementById('confirmPopup').addEventListener('click', function() {
+            const popup = document.getElementById('freelancePopup');
+            const freelanceOverlay = document.getElementById('freelanceOverlay');
             
             popup.classList.remove('active');
+            freelanceOverlay.classList.remove('active');
             
-            if (currentBuzzerLink) {
+            if (currentFreelanceLink) {
                 setTimeout(() => {
-                    window.open(currentBuzzerLink.url, '_blank');
+                    window.open(currentFreelanceLink.url, '_blank');
                 }, 300);
             }
-            currentBuzzerLink = null;
+            currentFreelanceLink = null;
         });
 
-        // Setup penutupan popup Buzzer saat klik di luar
-        document.getElementById('buzzerPopup').addEventListener('click', function(e) {
+        // Setup penutupan popup freelance saat klik di luar
+        document.getElementById('freelancePopup').addEventListener('click', function(e) {
             if (e.target === this) {
                 this.classList.remove('active');
-                currentBuzzerLink = null;
+                currentFreelanceLink = null;
             }
         });
 
@@ -845,7 +902,7 @@
                 if (link.customPopup) {
                     circleLink.addEventListener('click', function(e) {
                         e.preventDefault();
-                        showBuzzerPopup(link);
+                        showFreelancePopup(link);
                     });
                 }
                 
