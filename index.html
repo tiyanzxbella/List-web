@@ -457,6 +457,8 @@
         .buzzer { background: linear-gradient(135deg, #FF6B6B, #EE5A52); }
         .saweria { background: linear-gradient(135deg, #FF6B6B, #C44569); }
         .idol { background: linear-gradient(135deg, #4ECDC4, #44A08D); }
+        .teerid { background: linear-gradient(135deg, #9B59B6, #8E44AD); }
+        .sociabuzz { background: linear-gradient(135deg, #3498DB, #2980B9); }
 
         @keyframes circleAppear {
             from {
@@ -852,7 +854,7 @@
             }
         ];
 
-        // Data untuk link dukungan
+        // Data untuk link dukungan (4 link total)
         const supportLinks = [
             {
                 url: "https://saweria.co/Septiyandaputra",
@@ -865,6 +867,18 @@
                 icon: "🎁",
                 label: "Idol",
                 class: "idol"
+            },
+            {
+                url: "https://teer.id/tiyanz",
+                icon: "📊",
+                label: "Teer.id",
+                class: "teerid"
+            },
+            {
+                url: "https://sociabuzz.com/tiyan_gaming/tribe",
+                icon: "🌟",
+                label: "Sociabuzz",
+                class: "sociabuzz"
             }
         ];
 
@@ -968,33 +982,41 @@
             });
         }
 
-        // Fungsi khusus untuk membuat lingkaran dukungan (2 lingkaran berdampingan)
+        // Fungsi khusus untuk membuat lingkaran dukungan (4 lingkaran di posisi simetris)
         function createSupportCircleLinks(links, containerId) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
             
             const centerX = container.offsetWidth / 2;
             const centerY = container.offsetHeight / 2;
+            const radius = 120; // Radius untuk posisi lingkaran
             
-            // Untuk 2 link, atur posisi berdampingan
             links.forEach((link, index) => {
                 let x, y;
                 
-                // Jika hanya 2 link, atur posisi kiri dan kanan
-                if (links.length === 2) {
-                    const offset = 80; // Jarak dari tengah
-                    if (index === 0) {
-                        // Link pertama di kiri
-                        x = centerX - offset - 40;
-                    } else {
-                        // Link kedua di kanan
-                        x = centerX + offset - 40;
+                // Untuk 4 link, atur posisi dalam formasi persegi/silang
+                if (links.length === 4) {
+                    switch(index) {
+                        case 0: // Atas
+                            x = centerX - 40;
+                            y = centerY - radius - 40;
+                            break;
+                        case 1: // Kanan
+                            x = centerX + radius - 40;
+                            y = centerY - 40;
+                            break;
+                        case 2: // Bawah
+                            x = centerX - 40;
+                            y = centerY + radius - 40;
+                            break;
+                        case 3: // Kiri
+                            x = centerX - radius - 40;
+                            y = centerY - 40;
+                            break;
                     }
-                    y = centerY - 40;
                 } else {
-                    // Jika lebih dari 2, gunakan formasi lingkaran
+                    // Jika jumlah link berbeda, gunakan formasi lingkaran biasa
                     const angle = (index / links.length) * 2 * Math.PI;
-                    const radius = 100;
                     x = centerX + radius * Math.cos(angle) - 40;
                     y = centerY + radius * Math.sin(angle) - 40;
                 }
