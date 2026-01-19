@@ -298,6 +298,11 @@
             border-left-color: #FF9800;
         }
 
+        /* Tambahkan warna khusus untuk dukungan */
+        .support-title {
+            border-left-color: #FF6B6B;
+        }
+
         @keyframes slideRight {
             from {
                 opacity: 0;
@@ -337,6 +342,16 @@
 
         .freelance-button:hover {
             box-shadow: 0 15px 40px rgba(255, 152, 0, 0.6);
+        }
+
+        /* Tombol khusus dukungan dengan warna merah muda */
+        .support-button {
+            background: linear-gradient(135deg, #FF6B6B 0%, #C44569 100%);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .support-button:hover {
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
         }
 
         .floating-button:hover {
@@ -440,6 +455,8 @@
         .rekomendasi { background: linear-gradient(135deg, #FF9800, #F57C00); }
         .solvia { background: linear-gradient(135deg, #6C5CE7, #4834D4); }
         .buzzer { background: linear-gradient(135deg, #FF6B6B, #EE5A52); }
+        .saweria { background: linear-gradient(135deg, #FF6B6B, #C44569); }
+        .idol { background: linear-gradient(135deg, #4ECDC4, #44A08D); }
 
         @keyframes circleAppear {
             from {
@@ -632,6 +649,16 @@
         </div>
     </div>
 
+    <!-- Overlay untuk lingkaran link Dukungan -->
+    <div class="links-overlay" id="supportOverlay">
+        <div class="links-content">
+            <h2 class="overlay-title">Dukungan</h2>
+            <div class="circle-container" id="supportCircleContainer">
+                <!-- Dukungan Links akan ditambahkan melalui JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop>
         <source src="https://files.catbox.moe/8xrr41.opus" type="audio/ogg">
@@ -654,6 +681,9 @@
 
         <div class="section-title freelance-title">💼 Freelance</div>
         <button class="floating-button freelance-button" id="freelanceButton">Lihat Freelance</button>
+
+        <div class="section-title support-title">💝 Dukungan</div>
+        <button class="floating-button support-button" id="supportButton">Lihat Dukungan</button>
     </div>
 
     <script>
@@ -822,6 +852,22 @@
             }
         ];
 
+        // Data untuk link dukungan
+        const supportLinks = [
+            {
+                url: "https://saweria.co/Septiyandaputra",
+                icon: "❤️",
+                label: "Saweria",
+                class: "saweria"
+            },
+            {
+                url: "https://idol.buylink.id/Tiyanzstore",
+                icon: "🎁",
+                label: "Idol",
+                class: "idol"
+            }
+        ];
+
         // Variabel global untuk menyimpan link freelance yang dipilih
         let currentFreelanceLink = null;
 
@@ -922,11 +968,68 @@
             });
         }
 
+        // Fungsi khusus untuk membuat lingkaran dukungan (2 lingkaran berdampingan)
+        function createSupportCircleLinks(links, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            const centerX = container.offsetWidth / 2;
+            const centerY = container.offsetHeight / 2;
+            
+            // Untuk 2 link, atur posisi berdampingan
+            links.forEach((link, index) => {
+                let x, y;
+                
+                // Jika hanya 2 link, atur posisi kiri dan kanan
+                if (links.length === 2) {
+                    const offset = 80; // Jarak dari tengah
+                    if (index === 0) {
+                        // Link pertama di kiri
+                        x = centerX - offset - 40;
+                    } else {
+                        // Link kedua di kanan
+                        x = centerX + offset - 40;
+                    }
+                    y = centerY - 40;
+                } else {
+                    // Jika lebih dari 2, gunakan formasi lingkaran
+                    const angle = (index / links.length) * 2 * Math.PI;
+                    const radius = 100;
+                    x = centerX + radius * Math.cos(angle) - 40;
+                    y = centerY + radius * Math.sin(angle) - 40;
+                }
+                
+                const circleLink = document.createElement('div');
+                circleLink.className = `circle-link ${link.class}`;
+                circleLink.style.left = `${x}px`;
+                circleLink.style.top = `${y}px`;
+                circleLink.style.animationDelay = `${index * 0.1}s`;
+                
+                // Event listener untuk link dukungan
+                circleLink.addEventListener('click', function() {
+                    window.open(link.url, '_blank');
+                });
+                
+                const circleIcon = document.createElement('div');
+                circleIcon.className = 'circle-icon';
+                circleIcon.textContent = link.icon;
+                
+                const circleLabel = document.createElement('div');
+                circleLabel.className = 'circle-label';
+                circleLabel.textContent = link.label;
+                
+                circleLink.appendChild(circleIcon);
+                circleLink.appendChild(circleLabel);
+                container.appendChild(circleLink);
+            });
+        }
+
         // Inisialisasi lingkaran link saat DOM siap
         document.addEventListener('DOMContentLoaded', function() {
             createCircleLinks(sosmedLinks, 'sosmedCircleContainer');
             createCircleLinks(websiteLinks, 'websiteCircleContainer');
             createCircleLinks(freelanceLinks, 'freelanceCircleContainer');
+            createSupportCircleLinks(supportLinks, 'supportCircleContainer');
         });
 
         // Fungsi untuk animasi tombol
@@ -954,6 +1057,11 @@
             document.getElementById('freelanceOverlay').classList.add('active');
         });
 
+        // Event listener untuk tombol dukungan
+        document.getElementById('supportButton').addEventListener('click', function() {
+            document.getElementById('supportOverlay').classList.add('active');
+        });
+
         // Fungsi untuk menutup overlay saat mengklik di mana saja
         function setupOverlayClose(overlayId) {
             const overlay = document.getElementById(overlayId);
@@ -968,18 +1076,21 @@
             
             // Juga tambahkan event listener untuk mencegah penutupan saat mengklik link
             const linksContainer = overlay.querySelector('.circle-container');
-            linksContainer.addEventListener('click', function(e) {
-                // Mencegah event bubbling ke overlay jika yang diklik adalah link
-                if (e.target.closest('.circle-link')) {
-                    e.stopPropagation();
-                }
-            });
+            if (linksContainer) {
+                linksContainer.addEventListener('click', function(e) {
+                    // Mencegah event bubbling ke overlay jika yang diklik adalah link
+                    if (e.target.closest('.circle-link')) {
+                        e.stopPropagation();
+                    }
+                });
+            }
         }
 
-        // Setup penutupan untuk ketiga overlay
+        // Setup penutupan untuk semua overlay
         setupOverlayClose('sosmedOverlay');
         setupOverlayClose('websiteOverlay');
         setupOverlayClose('freelanceOverlay');
+        setupOverlayClose('supportOverlay');
 
         // Parallax effect on scroll
         window.addEventListener('scroll', function() {
